@@ -3,10 +3,9 @@ const chrome = require('selenium-webdriver/chrome');
 const path = require('path');
 
 (async function example() {
-    let service = new chrome.ServiceBuilder(path.join(__dirname, '../node_modules/.bin/chromedriver')).build();
-    let driver = new Builder()
+    let driver = await new Builder()
         .forBrowser('chrome')
-        .setChromeService(service)
+        .setChromeOptions(new chrome.Options())
         .build();
 
     try {
