@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'NodeJS 20' 
+        nodejs 'NodeJS 20'  
     }
 
     stages {
@@ -16,13 +16,13 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing...'
-                
+                bat 'npm run test'
             }
         }
         stage('Deploy') {
             steps {
                 echo 'Deploying...'
-                
+                // Add your deployment steps here
             }
         }
     }
@@ -30,7 +30,7 @@ pipeline {
     post {
         always {
             echo 'Cleaning up...'
-            
+            // Add any cleanup steps here
         }
     }
 }

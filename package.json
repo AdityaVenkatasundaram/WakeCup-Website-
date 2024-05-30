@@ -4,8 +4,8 @@
   "description": "WakeCup Cafe Website",
   "main": "index.js",
   "scripts": {
-    "build": "echo 'Building project...' && exit 0",
-    "test": "echo 'Running tests...' && exit 0"
+    "build": "echo 'Building project...'",
+    "test": "node tests/selenium.test.js"
   },
   "keywords": [],
   "author": "Aditya Venkatasundaram",
@@ -14,6 +14,7 @@
     "express": "^4.19.2"
   },
   "devDependencies": {
-    "jest": "^29.7.0"
+    "selenium-webdriver": "^4.0.0",
+    "chromedriver": "^100.0.0"
   }
 }
