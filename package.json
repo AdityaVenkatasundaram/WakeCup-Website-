@@ -4,13 +4,16 @@
   "description": "WakeCup Cafe Website",
   "main": "index.js",
   "scripts": {
-    "build": "echo 'Building project...' && exit 0",  
-    "test": "echo 'Running tests...' && exit 0"     
+    "build": "echo 'Building project...' && exit 0",
+    "test": "echo 'Running tests...' && exit 0"
   },
   "keywords": [],
   "author": "Aditya Venkatasundaram",
   "license": "ISC",
   "dependencies": {
     "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
