@@ -4,11 +4,11 @@ const path = require('path');
 
 (async function example() {
     let service = new chrome.ServiceBuilder(path.join(__dirname, '../node_modules/.bin/chromedriver')).build();
-    let driver = await new Builder()
+    let driver = new Builder()
         .forBrowser('chrome')
         .setChromeService(service)
         .build();
-    
+
     try {
         await driver.get('http://localhost:8080'); 
         await driver.wait(until.titleIs('WakeCup'), 1000);
