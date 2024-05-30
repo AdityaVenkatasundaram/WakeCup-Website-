@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'NodeJS 20'  
+        nodejs 'NodeJS 20'
     }
 
     stages {
@@ -22,7 +22,14 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying...'
-                // Add your deployment steps here
+                script {
+
+                    bat 'docker --version'
+                    bat 'docker-compose --version'
+
+
+                    bat 'docker-compose -f docker-compose.yml up -d --build'
+                }
             }
         }
     }
@@ -30,7 +37,6 @@ pipeline {
     post {
         always {
             echo 'Cleaning up...'
-            // Add any cleanup steps here
         }
     }
 }
