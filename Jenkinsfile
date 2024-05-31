@@ -8,7 +8,7 @@ pipeline {
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
         DOCKERHUB_USERNAME = 'Parzival'
-        PATH = "${env.PATH};C:/Program Files/Docker" 
+        PATH = "C:/Program Files/Docker;C:/Program Files/Docker/Docker/resources/bin;${env.PATH}"
     }
 
     stages {
@@ -71,7 +71,7 @@ pipeline {
         stage('Monitoring and Alerting') {
             steps {
                 echo 'Setting up Monitoring and Alerting...'
-
+ 
             }
         }
     }
