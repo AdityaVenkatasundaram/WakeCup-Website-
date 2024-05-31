@@ -14,14 +14,14 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building...'
-                bat 'npm install'
-                bat 'npm run build'
+                powershell 'npm install'
+                powershell 'npm run build'
             }
         }
         stage('Test') {
             steps {
                 echo 'Testing...'
-                bat 'npm run test'
+                powershell 'npm run test'
             }
         }
         stage('Code Quality Analysis') {
@@ -34,7 +34,7 @@ pipeline {
             steps {
                 echo 'Deploying to Staging...'
                 script {
-                    bat 'docker-compose -f docker-compose.yml up -d --build'
+                    powershell 'docker-compose -f docker-compose.yml up -d --build'
                 }
             }
         }
@@ -59,7 +59,7 @@ pipeline {
                 echo 'Deploying to Production...'
                 script {
                     sshagent(['production-server-credentials']) {
-                        sh '''
+                        powershell '''
                         docker pull ${DOCKERHUB_USERNAME}/wakecup-website:latest
                         docker-compose -f docker-compose.prod.yml up -d
                         '''
