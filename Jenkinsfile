@@ -7,21 +7,21 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
-        DOCKERHUB_USERNAME = 'Parzival'
+
     }
 
     stages {
         stage('Build') {
             steps {
                 echo 'Building...'
-                sh 'npm install'
-                sh 'npm run build'
+                bat 'npm install'
+                bat 'npm run build'
             }
         }
         stage('Test') {
             steps {
                 echo 'Testing...'
-                sh 'npm run test'
+                bat 'npm run test'
             }
         }
         stage('Code Quality Analysis') {
@@ -34,14 +34,14 @@ pipeline {
             steps {
                 echo 'Deploying to Staging...'
                 script {
-                    sh 'docker-compose -f docker-compose.yml up -d --build'
+                    bat 'docker-compose -f docker-compose.yml up -d --build'
                 }
             }
         }
         stage('Build Docker Image') {
             steps {
                 script {
-                    def app = docker.build("${DOCKERHUB_USERNAME}/wakecup-website:latest")
+                    def app = docker.build("Parzival/wakecup-website:latest")
                 }
             }
         }
@@ -60,7 +60,7 @@ pipeline {
                 script {
                     sshagent(['production-server-credentials']) {
                         sh '''
-                        docker pull ${DOCKERHUB_USERNAME}/wakecup-website:latest
+                        docker pull Parzival/wakecup-website:latest
                         docker-compose -f docker-compose.prod.yml up -d
                         '''
                     }
