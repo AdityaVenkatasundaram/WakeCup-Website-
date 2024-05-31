@@ -8,7 +8,6 @@ pipeline {
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
         DOCKERHUB_USERNAME = 'Parzival'
-        PATH = "C:/Program Files/Docker;C:/Program Files/Docker/Docker/resources/bin;${env.PATH}"
     }
 
     stages {
@@ -60,7 +59,7 @@ pipeline {
                 echo 'Deploying to Production...'
                 script {
                     sshagent(['production-server-credentials']) {
-                        bat '''
+                        sh '''
                         docker pull ${DOCKERHUB_USERNAME}/wakecup-website:latest
                         docker-compose -f docker-compose.prod.yml up -d
                         '''
@@ -71,7 +70,7 @@ pipeline {
         stage('Monitoring and Alerting') {
             steps {
                 echo 'Setting up Monitoring and Alerting...'
- 
+
             }
         }
     }
