@@ -8,6 +8,7 @@ pipeline {
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
         DOCKERHUB_USERNAME = 'Parzival'
+        PATH = "${env.PATH};C:/Program Files/Docker" 
     }
 
     stages {
