@@ -14,14 +14,14 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building...'
-                bat 'npm install'
-                bat 'npm run build'
+                sh 'npm install'
+                sh 'npm run build'
             }
         }
         stage('Test') {
             steps {
                 echo 'Testing...'
-                bat 'npm run test'
+                sh 'npm run test'
             }
         }
         stage('Code Quality Analysis') {
@@ -34,7 +34,7 @@ pipeline {
             steps {
                 echo 'Deploying to Staging...'
                 script {
-                    bat 'docker-compose -f docker-compose.yml up -d --build'
+                    sh 'docker-compose -f docker-compose.yml up -d --build'
                 }
             }
         }
