@@ -5,6 +5,11 @@ pipeline {
         nodejs 'NodeJS 20'
     }
 
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
+        DOCKERHUB_USERNAME = 'Parzival'
+    }
+
     stages {
         stage('Build') {
             steps {
@@ -19,17 +24,53 @@ pipeline {
                 bat 'npm run test'
             }
         }
-        stage('Deploy') {
+        stage('Code Quality Analysis') {
             steps {
-                echo 'Deploying...'
+                echo 'Running Code Quality Analysis...'
+
+            }
+        }
+        stage('Deploy to Staging') {
+            steps {
+                echo 'Deploying to Staging...'
                 script {
-
-                    bat 'docker --version'
-                    bat 'docker-compose --version'
-
-
                     bat 'docker-compose -f docker-compose.yml up -d --build'
                 }
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    def app = docker.build("${DOCKERHUB_USERNAME}/wakecup-website:latest")
+                }
+            }
+        }
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-credentials') {
+                        app.push()
+                    }
+                }
+            }
+        }
+        stage('Deploy to Production') {
+            steps {
+                echo 'Deploying to Production...'
+                script {
+                    sshagent(['production-server-credentials']) {
+                        sh '''
+                        docker pull ${DOCKERHUB_USERNAME}/wakecup-website:latest
+                        docker-compose -f docker-compose.prod.yml up -d
+                        '''
+                    }
+                }
+            }
+        }
+        stage('Monitoring and Alerting') {
+            steps {
+                echo 'Setting up Monitoring and Alerting...'
+
             }
         }
     }
